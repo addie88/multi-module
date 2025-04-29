@@ -63,6 +63,20 @@ pipeline {
             
         stage('Déploiement intégration') {
 
+                        input {
+            message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
+            parameters {
+                choice choices: [''], name: 'Paris'
+                choice choices: [''], name: 'Lille'
+                choice choices: [''], name: 'Lyon'
+            }
+            }
+
+            when {
+                branch 'master'
+                environment name: 'DEPLOY_TO', value: 'master'
+            }
+
             steps {
                 echo "Déploiement intégration"
                 
