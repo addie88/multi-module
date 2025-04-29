@@ -4,6 +4,9 @@ pipeline {
          maven 'mvn3'
          jdk 'Java21'
         }
+    environment {
+    SONAR_TOKEN = "credentials('SONAR_TOKEN')"
+    }
 
 
     stages {
