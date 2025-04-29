@@ -3,15 +3,16 @@ pipeline {
 
      def mvnHome
     stages {
+        tools {
+            maven 'mvn3'
+        }
 
        
 
         stage('Build and Test') {
             steps {
-                git '/home/plb/MyWork/multi-module'
-        
-                mvnHome = tool 'mvn3'
-               withEnv(["MVN_HOME=$mvnHome"]) { 
+                        
+                
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
                
             }
