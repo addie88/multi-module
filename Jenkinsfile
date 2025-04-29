@@ -75,6 +75,11 @@ pipeline {
             beforeInput true
             beforeAgent true
             }
+
+            options {
+            timeout(2)
+            }
+
             agent any
 
                    input {
