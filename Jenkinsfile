@@ -82,12 +82,10 @@ pipeline {
 
             agent any
 
-               /*     input {
-                message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
-                parameters {
-                    choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter'
+                   input {
+                message 'voulez-vous déployer l’artefact ?'
+                ok 'yes'
                 }
-                }*/
             
 
             steps {
@@ -100,7 +98,8 @@ pipeline {
                 def datacenters = props['dataCenters']
                 def integrationURL = props['intergrationURL']
                 for (datacenter in datacenters) {
-                  sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'  
+                  //sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'
+                  sh 'cp *.jar $integrationURL/${datacenter}.jar' 
                } 
               }   
               
