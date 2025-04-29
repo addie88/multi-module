@@ -99,7 +99,7 @@ pipeline {
                 def integrationURL = props['intergrationURL']
                 for (datacenter in datacenters) {
                   //sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'
-                  sh 'cp *.jar $integrationURL/${datacenter}.jar' 
+                  sh "cp *.jar $integrationURL/${datacenter}.jar" 
                } 
               }   
               
