@@ -69,6 +69,14 @@ pipeline {
             
         stage('Déploiement intégration') {
 
+            when {
+            branch 'master'
+            beforeOptions true
+            beforeInput true
+            beforeAgent true
+            }
+ 
+
                    input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
                 parameters {
@@ -76,11 +84,6 @@ pipeline {
                 }
                 }
 
-
-            when {
-                branch 'master'
-                environment name: 'DEPLOY_TO', value: 'dev'
-            }
 
             steps {
                 echo "Déploiement intégration on ${DataCenter}"
