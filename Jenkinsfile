@@ -77,10 +77,10 @@ pipeline {
                 }
 
 
-            //when {
-             //   branch 'master'
-              //  environment name: 'DEPLOY_TO', value: 'master'
-            //}
+            when {
+                branch 'master'
+                environment name: 'DEPLOY_TO', value: 'dev'
+            }
 
             steps {
                 echo "Déploiement intégration on ${DataCenter}"
