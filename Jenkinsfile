@@ -75,7 +75,7 @@ pipeline {
             beforeInput true
             beforeAgent true
             }
- 
+            agent any
 
                    input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
