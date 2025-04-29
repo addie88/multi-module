@@ -1,3 +1,6 @@
+def datacenters =[]
+def integrationURL = ''
+
 pipeline {
    agent any 
           tools {
@@ -66,7 +69,35 @@ pipeline {
             }
             
         }*/
-            
+
+ /* Initialiser les variables globale */          
+
+         stage('Initialisation JSON') {
+            steps {
+                script{         
+                def props = readJSON file: 'deployment.json'
+                datacenters = props['dataCenters']
+                integrationURL = props['integrationURL']
+               } 
+               
+            }
+        }
+
+         /* Initialiser les variables globale */          
+
+         stage('Validation before proceeding') {
+            agent none
+
+            input {
+                message 'voulez-vous déployer l’artefact ?'
+                ok 'yes'
+                }
+
+                steps{
+                        echo "Validationbefore proceeding"
+              }  
+        }
+
         stage('Déploiement intégration') {
 
             /*when {
@@ -80,34 +111,63 @@ pipeline {
             timeout(2)
             }*/
 
-            agent any
-
-                   input {
-                message 'voulez-vous déployer l’artefact ?'
-                ok 'yes'
-                }
+           
             
-
+            
             steps {
-                
-                //unarchive mapping: ['application/**/*.jar': '${DataCenter}']
+               
+                          
                 unstash 'JarArtifact'
                 script{
-
-                def props = readJSON file: 'deployment.json'
-                def datacenters = props['dataCenters']
-                def integrationURL = props['integrationURL']
+               
                 for (datacenter in datacenters) {
                   //sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'
                   sh "cp *.jar ${integrationURL}/${datacenter}.jar" 
                } 
               }   
-              
+                
                 
             }
         }
 
      }
     
+} /*End of Pipeline */
+
+
+def checkSonarQualityGate(){
+    // Get properties from report file to call SonarQube 
+    def sonarReportProps = readProperties  file: 'target/sonar/report-task.txt'
+    def sonarServerUrl = sonarReportProps['serverUrl']
+    def ceTaskUrl = sonarReportProps['ceTaskUrl']
+    def ceTask
+
+    // Get task informations to get the status
+    timeout(time: 4, unit: 'MINUTES') {
+        waitUntil(initialRecurrencePeriod: 1000)  {
+            withCredentials ([string(credentialsId: 'SONAR_TOKEN', variable : 'token')]) {
+                def response = sh(script: "curl -u ${token}: ${ceTaskUrl}", returnStdout: true).trim()
+                ceTask = readJSON text: response
+            }
+
+            echo ceTask.toString()
+              return "SUCCESS".equals(ceTask['task']['status'])
+        }
+    }
+
+    // Get project analysis informations to check the status
+    def ceTaskAnalysisId = ceTask['task']['analysisId']
+    def qualitygate
+
+    withCredentials ([string(credentialsId: 'SONAR_TOKEN', variable : 'token')]) {
+        def response = sh(script: "curl -u ${token}: ${sonarServerUrl}/api/qualitygates/project_status?analysisId=${ceTaskAnalysisId}", returnStdout: true).trim()
+        qualitygate =  readJSON text: response
+    }
+
+    echo qualitygate.toString()
+    if ("ERROR".equals(qualitygate['projectStatus']['status'])) {
+        error "Quality Gate failure"
+    }
 }
+
 
