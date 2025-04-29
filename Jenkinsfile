@@ -68,7 +68,7 @@ pipeline {
                    input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
                 parameters {
-                    choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter to deploy'
+                    choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter'
                 }
                 }
 
@@ -79,8 +79,8 @@ pipeline {
             //}
 
             steps {
-                echo "Déploiement intégration"
-                unarchive mapping: ['application/**/*.jar': '']
+                echo "Déploiement intégration on ${DataCenter}"
+                unarchive mapping: ['application/**/*.jar': '${DataCenter}']
                 
             }
         }
