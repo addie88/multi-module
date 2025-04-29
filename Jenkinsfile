@@ -111,7 +111,7 @@ pipeline {
             timeout(2)
             }*/
 
-           
+           agent any
             
             
             steps {
