@@ -5,7 +5,7 @@ pipeline {
          jdk 'Java21'
         }
     environment {
-    SONAR_TOKEN = "credentials('SONAR_TOKEN')"
+    SONAR_TOKEN = credentials('SONAR_TOKEN')
     }
 
 
