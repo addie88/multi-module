@@ -15,7 +15,7 @@ pipeline {
             steps {
                         
                 
-                sh "mvn -Dmaven.test.failure.ignore=true clean pack"
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
                
             }
 
@@ -39,17 +39,17 @@ pipeline {
        
 }
 
-        stage('Analyse qualité et vulnérabilités') {
+        stage('Analyse des dependences et analyse SonarQube') {
             parallel {
-                stage('Vulnérabilités') {
+                stage('Analysis of dependencies') {
                     steps {
-                        echo 'Tests de Vulnérabilités OWASP'
+                        sh "mvn -DskipTests verify"
                     }
                     
                 }
                  stage('Analyse Sonar') {
                      steps {
-                        echo 'Analyse sonar'
+                        sh "mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar"
                      }
                     
                 }
