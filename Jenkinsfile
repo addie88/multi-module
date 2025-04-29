@@ -88,13 +88,22 @@ pipeline {
                     choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter'
                 }
                 }
-
+            
 
             steps {
                 echo "Déploiement intégration on ${DataCenter}"
                 //unarchive mapping: ['application/**/*.jar': '${DataCenter}']
                 unstash 'JarArtifact'
-                sh 'cp *.jar /home/plb/MyWork/Servers'
+                script{
+
+                def props = readJSON file: 'deployment.json'
+                def datacenters = props['dataCenters']
+                def integrationURL = props['intergrationURL']
+                for (datacenter in datacenters) {
+                  sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'  
+               } 
+              }   
+              
                 
             }
         }
