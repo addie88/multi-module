@@ -45,12 +45,14 @@ pipeline {
         stage('Analyse des dependences et analyse SonarQube') {
             parallel {
                 stage('Analysis of dependencies') {
+                    agent any
                     steps {
                         sh 'mvn -DskipTests verify'
                     }
                     
                 }
                  stage('Analyse Sonar') {
+                    agent any
                      steps {
                         echo "Analyse sonar token"
                         sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
