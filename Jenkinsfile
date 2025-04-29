@@ -65,14 +65,13 @@ pipeline {
             
         stage('Déploiement intégration') {
 
-                        input {
-            message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
-            parameters {
-                choice choices: ['ST Denis'], name: 'Paris'
-                choice choices: ['Lille DATA Center'], name: 'Lille'
-                choice choices: ['Lyon'], name: 'Lyon'
-            }
-            }
+                   input {
+                message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
+                parameters {
+                    choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter to deploy'
+                }
+                }
+                
 
             when {
                 branch 'master'
