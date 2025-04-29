@@ -1,11 +1,13 @@
 pipeline {
    agent any 
-
-     def mvnHome
-    stages {
-        tools {
-            maven 'mvn3'
+          tools {
+         maven 'mvn3'
+         jdk 'Java21'
         }
+
+
+    stages {
+
 
        
 
@@ -16,9 +18,8 @@ pipeline {
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
                
             }
-             
-        }
-        post {
+
+             post {
   always {
     // One or more steps need to be included within each condition's block.
     junit '**/target/surefire-reports/*.xml'
@@ -29,7 +30,12 @@ pipeline {
   }
   failure {
     // One or more steps need to be included within each condition's block.
+
+    echo "Send an email"
   }
+             
+        }
+       
 }
 
         stage('Analyse qualité et vulnérabilités') {
