@@ -96,7 +96,7 @@ pipeline {
 
                 def props = readJSON file: 'deployment.json'
                 def datacenters = props['dataCenters']
-                def integrationURL = props['intergrationURL']
+                def integrationURL = props['integrationURL']
                 for (datacenter in datacenters) {
                   //sh 'cp *.jar $integrationURL/${datacenter}/${datacenter}.jar'
                   sh "cp *.jar ${integrationURL}/${datacenter}.jar" 
