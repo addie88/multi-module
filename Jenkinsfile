@@ -5,7 +5,7 @@ pipeline {
          jdk 'Java21'
         }
     environment {
-    SONAR_TOKEN = credentials('SONAR_TOKEN')
+    SONAR_TOKEN_ID = credentials('SONAR_TOKEN')
     }
 
 
@@ -53,7 +53,7 @@ pipeline {
                  stage('Analyse Sonar') {
                      steps {
                         echo "Analyse sonar token"
-                        sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
+                        sh 'mvn -Dsonar.token=${SONAR_TOKEN_ID} clean integration-test sonar:sonar'
                      }
                     
                 }
