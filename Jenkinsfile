@@ -71,7 +71,7 @@ pipeline {
                     choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter to deploy'
                 }
                 }
-                
+
 
             when {
                 branch 'master'
@@ -80,6 +80,7 @@ pipeline {
 
             steps {
                 echo "Déploiement intégration"
+                unarchive mapping: ['application/**/*.jar': '']
                 
             }
         }
