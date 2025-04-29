@@ -91,7 +91,7 @@ pipeline {
             
 
             steps {
-                echo "Déploiement intégration on ${DataCenter}"
+                
                 //unarchive mapping: ['application/**/*.jar': '${DataCenter}']
                 unstash 'JarArtifact'
                 script{
