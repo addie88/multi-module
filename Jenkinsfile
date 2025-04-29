@@ -30,6 +30,10 @@ pipeline {
   success {
     // One or more steps need to be included within each condition's block.
     archiveArtifacts 'application/**/*.jar'
+    dir ('application/target'){
+        stash name: 'JarArtifact', includes: '*.jar'
+        }  
+    
   }
   failure {
     // One or more steps need to be included within each condition's block.
@@ -80,7 +84,9 @@ pipeline {
 
             steps {
                 echo "Déploiement intégration on ${DataCenter}"
-                unarchive mapping: ['application/**/*.jar': '${DataCenter}']
+                //unarchive mapping: ['application/**/*.jar': '${DataCenter}']
+                unstash 'JarArtifact'
+                sh 'cp *.jar /home/plb/MyWork/Servers'
                 
             }
         }
