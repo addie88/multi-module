@@ -46,7 +46,7 @@ pipeline {
        
 }
 
-        stage('Analyse des dependences et analyse SonarQube') {
+       /*  stage('Analyse des dependences et analyse SonarQube') {
             parallel {
                 stage('Analysis of dependencies') {
                     agent any
@@ -65,11 +65,11 @@ pipeline {
                 }
             }
             
-        }
+        }*/
             
         stage('Déploiement intégration') {
 
-            when {
+            /*when {
             branch 'master'
             beforeOptions true
             beforeInput true
@@ -78,16 +78,16 @@ pipeline {
 
             options {
             timeout(2)
-            }
+            }*/
 
             agent any
 
-                   input {
+               /*     input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
                 parameters {
                     choice choices: ['Paris', 'Lille', 'Lyon'], name: 'DataCenter'
                 }
-                }
+                }*/
             
 
             steps {
