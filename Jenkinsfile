@@ -46,13 +46,14 @@ pipeline {
             parallel {
                 stage('Analysis of dependencies') {
                     steps {
-                        sh "mvn -DskipTests verify"
+                        sh 'mvn -DskipTests verify'
                     }
                     
                 }
                  stage('Analyse Sonar') {
                      steps {
-                        sh "mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar"
+                        echo "Analyse sonar token"
+                        sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                      }
                     
                 }
