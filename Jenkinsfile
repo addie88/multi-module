@@ -32,6 +32,7 @@ pipeline {
     // One or more steps need to be included within each condition's block.
 
     echo "Send an email"
+    mail bcc: '', body: 'Post Installation steps failed', cc: '', from: '', replyTo: '', subject: 'Post Installation steps failed', to: 'admire.mahleka@bnpparibas.com'
   }
              
         }
