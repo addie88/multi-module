@@ -21,7 +21,7 @@ pipeline {
                         
                 
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                createtarGz sourceDir: 'application/src/main', extensions:'['java','xml']', outputDir: 'dist'              
+                createtarGz sourceDir: 'application/src/main', extensions:['java','xml'], outputDir: 'dist'              
             }
 
              post {
