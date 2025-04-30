@@ -56,7 +56,7 @@ pipeline {
                 {
                     kubernetes
                    {
-                    yamlFile 'kubernetesProd.yml'
+                    yamlFile 'kubernetesPod.yml'
                    } 
 
            }  
