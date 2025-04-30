@@ -1,5 +1,4 @@
 @Library('GlobalLib') _
-
 pipeline {
     agent any
 
