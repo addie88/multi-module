@@ -63,11 +63,12 @@ pipeline {
 
                 script{         
                     def dockerImage = docker.build('addie88/multi-module','.')
-                    docker.withRegistry('https://registry.hub.docker.com','DOCKERHUB')
+                    docker.withRegistry('https://registry.hub.docker.com','DOCKERHUB'){
                     dockerImage.push "${env.BRANCH_NAME}"
-                    } 
+                    }
+                } 
                
-               
+
             }
         }
 
