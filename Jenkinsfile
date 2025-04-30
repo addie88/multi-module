@@ -62,8 +62,8 @@ pipeline {
                 unstash  'JarArtifact'
 
                 script{         
-                    def dockerImage = docker.build('MyWork/multi-module','.')
-                    docker.withRegistry('https://hub.docker.com/repositories/addie88';'DOCKERHUB')
+                    def dockerImage = docker.build('addie88/multi-module','.')
+                    docker.withRegistry('https://registry.hub.docker.com';'DOCKERHUB')
                     dockerImage.push "${env.BRANCH_NAME}"
                     } 
                
