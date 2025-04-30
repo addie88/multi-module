@@ -4,7 +4,7 @@ pipeline {
 
     tools {
          maven 'mvn3'
-         jdk 'Java21'
+        // jdk 'Java21'
         }
     environment {
     SONAR_TOKEN=credentials('SONAR_TOKEN_ID')
