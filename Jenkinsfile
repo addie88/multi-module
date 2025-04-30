@@ -51,8 +51,15 @@ pipeline {
        
         }
 
-        /*stage('Creation docker image') {
-            agent any
+        stage('Kubernetes yaml') {
+            agent
+                {
+                    kubernetes
+                   {
+                    yamlFile 'kubernetesProd.yml'
+                   } 
+
+           }  
             steps {
                 unstash  'JarArtifact'
 
