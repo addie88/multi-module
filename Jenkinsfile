@@ -17,10 +17,18 @@ pipeline {
        
 
         stage('Build and compile') {
+
+            agent {
+                docker {
+                    image 'openjdk:17-alpine'
+                    args '-v $HOME/.m2/root/.m2'
+                }
+                }
+
             steps {
                         
                 
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                sh './mvn -Dmaven.test.failure.ignore=true clean package'
                 createtarGz sourceDir: 'application/src/main', extensions:['java','xml'], outputDir: 'dist'              
             }
 
