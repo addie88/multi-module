@@ -1,4 +1,4 @@
-@Library('GlobalLib') _
+//@Library('GlobalLib') _
 pipeline {
     agent none
 
@@ -14,7 +14,7 @@ pipeline {
                     inheritFrom 'jdk17-agent'
                     
                 }
-                }
+            }
 
             steps {
 
