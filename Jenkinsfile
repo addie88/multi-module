@@ -55,6 +55,21 @@ pipeline {
         }
        
         }
+
+        stage('Creation docker image') {
+            agent any
+            steps {
+                unstash  'JarArtifact'
+
+                script{         
+                    def dockerImage = docker.build('MyWork/multi-module','.')
+                    docker.withRegistry('https://hub.docker.com/repositories/addie88';'DOCKERHUB')
+                    dockerImage.push"${env.BRANCH_NAME}"
+                    } 
+               
+            }
+        }
+
     }
 }
 
