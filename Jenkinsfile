@@ -1,35 +1,30 @@
 @Library('GlobalLib') _
 pipeline {
-    agent any
-
-    tools {
-         maven 'mvn3'
-        // jdk 'Java21'
-        }
-    environment {
-    SONAR_TOKEN=credentials('SONAR_TOKEN_ID')
-    }
-
+    agent none
 
     stages {
 
 
        
 
-        stage('Build and compile') {
+        stage('Build and compile with kunernetes') {
 
             agent {
-                docker {
-                    image 'openjdk:17-alpine'
-                    args '-v $HOME/.m2/root/.m2'
+                kubernetes {
+                    inheritFrom 'jdk17-agent'
+                    
                 }
                 }
 
             steps {
-                        
+
+                   container (name: 'openjdk-17')
+                 {       
                 
                 sh './mvnw -Dmaven.test.failure.ignore=true clean package'
-                createtarGz sourceDir: 'application/src/main', extensions:['java','xml'], outputDir: 'dist'              
+
+                }
+                //createtarGz sourceDir: 'application/src/main', extensions:['java','xml'], outputDir: 'dist'              
             }
 
              post {
@@ -56,7 +51,7 @@ pipeline {
        
         }
 
-        stage('Creation docker image') {
+        /*stage('Creation docker image') {
             agent any
             steps {
                 unstash  'JarArtifact'
@@ -70,7 +65,7 @@ pipeline {
                
 
             }
-        }
+        }//stage2*/
 
     }
 }
